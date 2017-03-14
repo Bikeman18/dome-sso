@@ -9,11 +9,10 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_with_oauth2
-    if session['oauth2-data'].present?
-      @identity = Identity.find_by_uid(session['oauth2-data']['uid'])
-      @identity.user = @user
-      @identity.save
-    end
+    return nil unless session['oauth2-data'].present?
+    @identity = Identity.find_by_uid(session['oauth2-data']['uid'])
+    @identity.user = @user
+    @identity.save
   end
 
   rescue_from ActionController::RedirectBackError, with: :redirct_to_default
@@ -45,6 +44,7 @@ class ApplicationController < ActionController::Base
 
   def set_referrer
     @referrer_host = params[:service] if params[:service].present?
+    @referrer_host = cookies['service'] if !@referrer_host.present? && cookies['service'].present?
     session[:referrer] = @referrer_host if @referrer_host && request.host != @referrer_host
   end
 

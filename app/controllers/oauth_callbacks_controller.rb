@@ -19,8 +19,8 @@ class OauthCallbacksController < ApplicationController
       else
         session['oauth2-data'] = auth
         flash[:notice] = '请登录或注册，以完成绑定'
-        if params[:service].present?
-          redirect_to '/login?' + URI.encode_www_form('service' => params[:service])
+        if cookies[:service].present?
+          redirect_to '/login?' + URI.encode_www_form('service' => cookies[:service])
         else
           redirect_to '/login'
         end
@@ -35,7 +35,8 @@ class OauthCallbacksController < ApplicationController
       @ticket_granting_ticket = tgt
       render 'casino/sessions/validate_otp'
     else
-      if params[:service].present?
+      if cookies[:service].present?
+        params[:service] = cookies[:service]
         begin
           handle_signed_in_with_service(tgt, options)
           return

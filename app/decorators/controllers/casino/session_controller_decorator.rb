@@ -10,8 +10,16 @@ CASino::SessionsController.class_eval do
     end
   end
 
+  def new
+    tgt = current_ticket_granting_ticket
+    cookies[:service] = params[:service] if params[:service].present?
+    return handle_signed_in(tgt) unless params[:renew] || tgt.nil?
+    redirect_to(params[:service]) if params[:gateway] && params[:service].present?
+  end
+
   def create
     validation_result = validate_login_credentials(params[:username], params[:password])
+    params[:service] = cookies['service'] if !params[:service].present? && cookies['service'].present?
     if !validation_result
       log_failed_login params[:username]
       show_login_error I18n.t('login_credential_acceptor.invalid_login_credentials')

@@ -27,9 +27,9 @@ class Api::UsersController < ApplicationController
     if @service_permission.present? && @service_permission.key_permissions.present?
       @key_permissions = @service_permission.key_permissions
       if rw == 'w'
-        return @key_permissions.select {|k,v| v == 2 }.keys
+        return @key_permissions.select { |_k, v| v == 2 }.keys
       else
-        return @key_permissions.select {|k,v| v > 0 }.keys
+        return @key_permissions.select { |_k, v| v > 0 }.keys
       end
     end
   end

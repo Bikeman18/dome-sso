@@ -93,7 +93,7 @@ class PasswordResetsController < ApplicationController
         rescue Addressable::URI::InvalidURIError => e
           Rails.logger.warn "Service #{params[:service]} not valid: #{e}"
         end
-        end
+      end
       redirect_to '/sessions', status: :see_other
     end
   end

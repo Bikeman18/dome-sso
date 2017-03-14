@@ -2,16 +2,9 @@
   <% unless session["oauth2-data"].present? %>
     <ul class="horizontal-ul">
         <li>第三方登录：  </li>
-        <% if params[:service].nil? %>
-            <li><%= link_to image_tag("login_weibo"), '/auth/weibo' %></li>
-            <li><%= link_to image_tag("login_qq"), '/auth/qq_connect' %></li>
-            <li><%= link_to image_tag("login_weixin"), '/auth/wechat' %></li>
-        <% else %>
-            <% addon = URI.encode_www_form("service"=>params[:service]) %>
-            <li><%= link_to image_tag("login_weibo"), '/auth/weibo?'+addon %></li>
-            <li><%= link_to image_tag("login_qq"), '/auth/qq_connect?'+addon %></li>
-            <li><%= link_to image_tag("login_weixin"), '/auth/wechat?'+addon %></li>
-        <% end %>
+        <li><%= link_to image_tag("login_weibo"), '/auth/weibo' %></li>
+        <li><%= link_to image_tag("login_qq"), '/auth/qq_connect' %></li>
+        <li><%= link_to image_tag("login_weixin"), '/auth/wechat' %></li>
     </ul>
   <% end %>
 </div>
